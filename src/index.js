@@ -2,7 +2,7 @@ const express=require("express");// import of express framework
 const morgan =require("morgan");
 const path=require("path");
 const app= express();
-
+const {mongoose}=require("./database");
 
 //settings
 app.set("port", process.env.PORT||4000)
@@ -16,7 +16,7 @@ app.use(express.json());
 //routes
 app.use("/api",require("./routes/task"));// 
 //static filesnm
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname,"public")));
 
 
 //start
