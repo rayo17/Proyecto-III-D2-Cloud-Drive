@@ -5,4 +5,4 @@ mongoose.connect(url)// colocar la direccion de la base de datos a la cual se de
 .catch(err=>console.error(err))
 
 
-module.exports=mongose;
+module.exports=mongoose;
