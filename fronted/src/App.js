@@ -12,7 +12,7 @@ function App() {
   return (
     <R>
       <Navigation/>
-      <div className="container-sm" >
+      <div  >
       <Routes>
       <Route path="/" element={<Inicio/>}/>
       <Route path="/createUsers"element={<CreateUsers/>}/>
