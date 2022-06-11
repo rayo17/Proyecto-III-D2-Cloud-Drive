@@ -4,7 +4,8 @@ export default class Compression extends Component {
     render() {
         return (
         <div>
-            
+            hi
+
         </div>
         )
 
