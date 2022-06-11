@@ -23,16 +23,17 @@ export default class Navigation extends Component {
                   <Link className="nav-link" to="/createUsers">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <a class="nav-link" href="#">Pricing</a>
+                  <a className="nav-link" href="#">Pricing</a>
                 </li>
-                <li cclassName="nav-item">
-                  <a class="nav-link disabled">Disabled</a>
+                <li className="nav-item">
+                  <a className="nav-link disabled">Disabled</a>
                 </li>
               </ul>
             </div>
           </div>
         </nav>
       </div>
+      
     )
   }
 }
