@@ -1,0 +1,18 @@
+.fondo{
+    background-image: linear-gradient(rgba(5,7,12,0.75),rgba(5,7,12,0.75)),
+    url(https://i.pinimg.com/originals/c5/2f/fa/c52ffaa14c1eb117dc09fdd9cc12468b.jpg);
+    
+}
+.fondo2{
+    background: rgba(5,7,12,0.40);
+}
+.alinear{
+    margin:0px auto;
+}
+
+.formulario{
+    background: rgba(5,7,12,0.38);
+}
+.label{
+    color:white;
+}
