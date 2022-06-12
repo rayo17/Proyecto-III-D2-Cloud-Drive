@@ -1,17 +1,11 @@
-import React, { Component } from 'react'
+
 import { Link } from 'react-router-dom'
 import "./estilo.css"
-import { useState } from 'react'
+
 
 
 
 const Inicio=()=>{
-    const [input, setInput] = useState({
-        correo: "",
-        contraseña: "",
-    })
-    const [mensaje, setmensaje] = useState()
-    const [loading, setLoading] = useState(false)
     return (
         <div className='text-center fondo'>
 

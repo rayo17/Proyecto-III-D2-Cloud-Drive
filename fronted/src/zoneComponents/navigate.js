@@ -25,7 +25,7 @@ export default class Navigation extends Component {
                   <Link className="nav-link" to="/createUsers">Registrarse</Link>
                 </li>
                 <li className="nav-item">
-                  <Link  className="nav-link" to="/"> Count</Link>
+                  <Link  className="nav-link" to="/cuenta"> Cuenta</Link>
                   
                 </li>
                 <li className="nav-item">
