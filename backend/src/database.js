@@ -1,11 +1,13 @@
 // codigo de la base de datos
-const mongoose=require("mongoose");
-const url="";
-mongoose.connect(url,{
-    userNewurlParser:true,
-    useCreateIndex:true
-});
+const mongoose = require("mongoose");
+const url = "";
+
+const comprobando = async () => {
+    await mongoose.connect(url)
+    .then(()=>console.log("base de datos conectada"))
+    .catch((error)=>console.error(error))
+}
 
 
-const connection =mongoose.connection;
+const connection = mongoose.connection;
 

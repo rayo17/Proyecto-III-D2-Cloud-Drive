@@ -1,7 +1,8 @@
 const express=require("express")
 const cors=require("cors");
 const app=express(); //devuelve un objeto express este es nuestro serviodr
-
+const controller=require("./controllers");
+//const baseDatos=require("/database")
 //settings
 app.set("port",process.env.PORT||4000);//estableciendo el puerto
 
