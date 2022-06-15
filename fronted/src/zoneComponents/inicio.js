@@ -1,12 +1,40 @@
 
 import { Link } from 'react-router-dom'
 import "./estilo.css"
+import { useNavigate} from 'react-router-dom'
+import { useState } from 'react'
 
 
 
 
 const Inicio=()=>{
+    
+        const[inputs,setInputs]=useState({ //VALIDANDO LOS DATOS DEL REGISTRO
+            correo: "",
+            costraseña:"",
+        });
+        const[message,seMessage]=useState();
+        const [loading,setLoading]=useState(false);
+       
+        const {correo,contraseña}=inputs; 
+        const onChange=(e)=>{
+            setInputs({...inputs,[e.target.name]:e.target.value})
+        }
+        const onSubmit=(e)=>{
+            e.preventDefault();
+            if(correo !==""&& contraseña!==""){
+                const usuario={
+                    correo,
+                    contraseña,
+                };
+                setLoading(true);
+                
+            }
+        };
+        const navigate=useNavigate()
+    
     return (
+        <>
         <div className='text-center fondo'>
 
             <div className='container fondo2'>
@@ -26,11 +54,11 @@ const Inicio=()=>{
 
                     <div className='col-md-9 border-bottom-0 alinear formulario'>
                         <div className='card card-body alinear formulario'>
-                            <form action='compresion'>
+                            <form onSubmit={e=> onSubmit(e)}>
                                 <div class="form-group row alinear">
                                     <label for="inputEmail3" className="col-sm-2 col-form-label label">Email</label>
                                     <div class="col-sm-10">
-                                        <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
+                                        <input type="email" onChange={e=> onChange(e)} className="form-control" id="inputEmail4" placeholder="Email" />
 
                                     </div>
                                     <br />
@@ -39,16 +67,16 @@ const Inicio=()=>{
                                 <div class="form-group row">
                                     <label for="inputPassword3" className="col-sm-2 col-form-label label">Password</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" name="contraseña" id="inputPassword3" placeholder="Password" />
+                                        <input type="password" onChange={(e)=> onChange(e)} class="form-control" name="contraseña" id="inputPassword3" placeholder="Password" />
                                     </div>
 
                                 </div>
                                 <br />
                                 <div>
                                     <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">inicio de sesion</button>
+                                        <button  onClick={()=> navigate("/compresion")} class="btn btn-primary">inicio de sesion</button>
                                     </div>
-                                    <div className='my-3'>
+                                    <div className='my-3 label'>
                                         <span> si no tienes cuenta puedes registrarte aqui <Link to="createUsers">Registrarse</Link></span>
                                         <br />
 
@@ -58,7 +86,7 @@ const Inicio=()=>{
                             </form>
                             <div className='container w-100 my-5'>
                                 <div className='row text-center'>
-                                    <div className='col-12'>
+                                    <div className='col-12 label'>
                                         Iniciar Sesion
 
                                     </div>
@@ -112,7 +140,8 @@ const Inicio=()=>{
 
             </div>
         </div>
-
+        {message && <div className='style'>{message}</div>}
+        </>
 
 
     )

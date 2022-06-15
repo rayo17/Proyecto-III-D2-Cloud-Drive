@@ -13,11 +13,10 @@ import AutProvider from "./aut/AutProvider";
 import Cuenta from "./zoneComponents/Cuenta";
 function App() {
   return (
-    <div>
-      <AutProvider>
+    
         <R>
           <Navigation />
-          <div>
+       
             <Routes>
               <Route path="/" element={<Inicio />} />
               <Route path="/createUsers" element={<CreateUsers />} />
@@ -25,18 +24,17 @@ function App() {
                 exact
                 path="/compresion"
                 element={
-                  <PrivateRoute>
-                    <Compression/>
-                  </PrivateRoute>
+                  
+                    <Compression />
+                  
                 }
               />
-              <Route path= "/cuenta" element={<PrivateRoute> <Cuenta/> </PrivateRoute>}/>
+              <Route path= "/cuenta" element={<Cuenta /> }/>
 
             </Routes>
-          </div>
+         
         </R>
-      </AutProvider>
-    </div>
+   
   );
 }
 

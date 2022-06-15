@@ -6,5 +6,5 @@ const getUser=require(".getUsersByid");
 module.exports={
     registro,
     login,
-    getUser,
+    getUser
 };
