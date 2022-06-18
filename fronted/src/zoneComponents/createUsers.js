@@ -39,7 +39,7 @@ const CreateUsers = () => {
                     setInputs({ correo: "", contraseña: "" });
                     setTimeout(() => {
                         setMessage("");
-                        navigate("/inicio");
+                        navigate("/");
                         setLoading(false);                        
                     }, 1500)
 

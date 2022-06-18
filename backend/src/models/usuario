@@ -1,9 +1,17 @@
+const { json } = require("express");
 const {model,Schema}=require("mongoose");
 
 const schemaUser=new Schema({
     correo: {type: String, required:true,unique:true},
     contraseña:{type:String, required:true},
-
+    document:{
+        document1:{
+            tags:{type:String},
+            extesionFIle:{type:String,required:true},
+            filecompress:{type:String,required:true},
+            enconder:{type:String,required:true},
+        }
+    }
 
 })
 
