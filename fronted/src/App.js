@@ -22,7 +22,7 @@ function App() {
               <Route path="/createUsers" element={<CreateUsers />} />
               <Route
                 exact
-                path="/compresion"
+                path="/compresion/:id"
                 element={
                   
                     <Compression />

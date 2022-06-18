@@ -1,37 +1,65 @@
 
 import { Link } from 'react-router-dom'
 import "./estilo.css"
+import axios from "axios";
 import { useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 
 
 
 
+
 const Inicio=()=>{
-    
-        const[inputs,setInputs]=useState({ //VALIDANDO LOS DATOS DEL REGISTRO
-            correo: "",
-            costraseña:"",
-        });
-        const[message,seMessage]=useState();
-        const [loading,setLoading]=useState(false);
-       
-        const {correo,contraseña}=inputs; 
-        const onChange=(e)=>{
-            setInputs({...inputs,[e.target.name]:e.target.value})
+    const [inputs, setInputs] = useState({ //VALIDANDO LOS DATOS DEL REGISTRO
+        correo: "",
+        costraseña: "",
+    });
+    const [message, setMessage] = useState();
+    const [loading, setLoading] = useState(false);
+
+    const { correo, contraseña } = inputs;
+    const onChange = (e) => {
+        setInputs({ ...inputs, [e.target.name]: e.target.value })
+    }
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (correo !== "" && contraseña !== "") {
+            console.log(contraseña);
+            console.log(correo)
+            const Usuario = {
+                correo,
+                contraseña,
+            };
+            setLoading(true);
+            await axios
+                .post("http://localhost:4000/login", Usuario)
+                .then(({ data }) => {
+                    console.log(data)
+                    setMessage(data.message)
+                    setInputs({ correo: "", contraseña: "" });
+                    setTimeout(() => {
+                        setMessage("");
+                        setLoading(false);  
+                        console.log(Usuario.id)
+                        navigate(`/compresion/${data?.usuario.id} `);
+                                             
+                    }, 1500)
+
+                })
+                .catch((error) => {
+                    console.error(error);
+                    setMessage("lo siento hay un error");
+                    setTimeout(() => {
+                        setMessage("");
+                        setLoading(false);
+                    }, 1500);
+                   
+                });
+            
         }
-        const onSubmit=(e)=>{
-            e.preventDefault();
-            if(correo !==""&& contraseña!==""){
-                const usuario={
-                    correo,
-                    contraseña,
-                };
-                setLoading(true);
-                
-            }
-        };
-        const navigate=useNavigate()
+    };
+    const navigate = useNavigate()
+    
     
     return (
         <>
@@ -54,11 +82,11 @@ const Inicio=()=>{
 
                     <div className='col-md-9 border-bottom-0 alinear formulario'>
                         <div className='card card-body alinear formulario'>
-                            <form onSubmit={e=> onSubmit(e)}>
+                            <form onSubmit={e => onSubmit(e)}>
                                 <div class="form-group row alinear">
                                     <label for="inputEmail3" className="col-sm-2 col-form-label label">Email</label>
                                     <div class="col-sm-10">
-                                        <input type="email" onChange={e=> onChange(e)} className="form-control" id="inputEmail4" placeholder="Email" />
+                                        <input type="email" onChange={e=> onChange(e)} name="correo" value={correo} className="form-control" id="inputEmail4" placeholder="Email" />
 
                                     </div>
                                     <br />
@@ -67,14 +95,16 @@ const Inicio=()=>{
                                 <div class="form-group row">
                                     <label for="inputPassword3" className="col-sm-2 col-form-label label">Password</label>
                                     <div class="col-sm-10">
-                                        <input type="password" onChange={(e)=> onChange(e)} class="form-control" name="contraseña" id="inputPassword3" placeholder="Password" />
+                                        <input type="password" value={contraseña} onChange={(e)=> onChange(e)} class="form-control" name="contraseña" id="inputPassword3" placeholder="Password" />
                                     </div>
 
                                 </div>
                                 <br />
                                 <div>
                                     <div class="d-grid">
-                                        <button  onClick={()=> navigate("/compresion")} class="btn btn-primary">inicio de sesion</button>
+                                        <button type='submit' class="btn btn-primary"> { loading? "cargando":"iniciar sesion"} </button>
+                                        {message && <div className='mensaje'>{message}</div>}
+                                        
                                     </div>
                                     <div className='my-3 label'>
                                         <span> si no tienes cuenta puedes registrarte aqui <Link to="createUsers">Registrarse</Link></span>
