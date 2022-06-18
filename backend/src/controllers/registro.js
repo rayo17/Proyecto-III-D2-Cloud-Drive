@@ -1,7 +1,7 @@
 const bcry=require("bcrypt");
 const Usuario=require("../models/usuario");
 const registro=async (req,res)=>{
-    const {correo, contraseña}=req.body
+    const {correo, contraseña}=req.body;
     Usuario.findOne({correo}).then(usuario=>{
         if(usuario){
             return res.json({menssage:"ya existe ese correo"});
@@ -10,16 +10,17 @@ const registro=async (req,res)=>{
             return res.json({message:"Faltan elementos por completar"});
         }
         else{
+           
             bcry.hash(contraseña,10,(error,contraseñaHasheada)=>{
                 if(error) res.json({err});
                 else{
                     const newUsuario=new Usuario({
                         correo,
                         contraseña:contraseñaHasheada,
-                    })
+                    });
                     newUsuario.save().then(usuario=>{
                         res.json({
-                            message:"se creo correctamente"
+                            message:"se creo correctamente", usuario
                         });
                     
                     })
@@ -30,4 +31,4 @@ const registro=async (req,res)=>{
     })
 };
 
-module.exports=registro; 
+module.exports=registro;  

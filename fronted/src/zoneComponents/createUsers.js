@@ -64,7 +64,7 @@ const CreateUsers=()=> {
     
     
                         <div className='col-3 alinear fondo2'>
-                            <img src="https://www.pinpng.com/pngs/m/341-3415688_no-avatar-png-transparent-png.pn" width="150" />
+                            <img src="https://www.pinpng.com/pngs/m/341-3415688_no-avatar-png-transparent-png.pn " alt='' width="150" />
                         </div>
     
     
@@ -106,7 +106,7 @@ const CreateUsers=()=> {
                                                 <button className='btn btn-outline-primary w-100 my-1'>
                                                     <div className='row align-items-center'>
                                                         <div className='col-2'>
-                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/600px-Facebook_f_logo_%282019%29.svg.png" width="30" />
+                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/600px-Facebook_f_logo_%282019%29.svg.png" alt='' width="30" />
     
                                                         </div>
                                                         <div className='col-10  text-center'>
@@ -120,7 +120,7 @@ const CreateUsers=()=> {
                                                 <button className='btn btn-outline-danger w-100 my-1'>
                                                     <div className='row align-items-center'>
                                                         <div className='col-2'>
-                                                            <img src="https://antoniofernandez.com/assets/blog/node-google-login.png" width="32" />
+                                                            <img src="https://antoniofernandez.com/assets/blog/node-google-login.png" alt='' width="32" />
     
                                                         </div>
                                                         <div className='col-10  text-center'>

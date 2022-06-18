@@ -9,7 +9,7 @@ app.set("port",process.env.PORT||4000);//estableciendo el puerto
 // middlewares son procesos que se ejecutan intermedio entre el backend y el frontend
 app.use(cors());
 app.use(express.json());
-app.get("/user/:id", controllers. getUserById);
+app.get("/user/:UserId", controllers.getUserById);
 app.post("/registro", controllers.registro)
 app.post("/login",controllers.login);
 //routes rutas del servidor

@@ -1,14 +1,15 @@
 const bycrypt=require("bcrypt");
-const usario=require("../models/usuario")
+const usuario=require("../models/usuario")
 const User=require("../models/usuario");
-const login=async (req,resp)=>{
-    const{coorreo,contraseña}=req.body;
+const login=async (req,res)=>{
+    const{correo,contraseña}=req.body;
+    User.findOne({correo}).then(usuario=>{
     if(!usuario){
         return res.json({message: "usario no encontrado"})
     }
     bycrypt.compare(contraseña,usuario.contraseña).then((correcta)=>{
         if(correcta){
-            const {id}=usario;
+            const {id}=usuario;
             res.json({
                 message:"se ha Registrado correctamente",
                 usuario: {
@@ -19,6 +20,7 @@ const login=async (req,resp)=>{
             return res.json({message:"su contraseña es incorrecta"});
         }
     })
+})
 
 };
 
