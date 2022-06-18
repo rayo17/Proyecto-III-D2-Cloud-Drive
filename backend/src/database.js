@@ -10,6 +10,6 @@ const conectando = async () => {
     .catch((error)=>{console.error(error); console.log("error en base")});
 }
 
-
 module.exports=conectando;
+
 

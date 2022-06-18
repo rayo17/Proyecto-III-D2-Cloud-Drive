@@ -1,7 +1,7 @@
-import React, { Component, useState } from 'react'
+import React, {  useState } from 'react'
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from 'bootstrap';
+
 import { useNavigate } from 'react-router-dom';
 import "./estilo.css"
 const CreateUsers=()=> {
@@ -14,14 +14,14 @@ const CreateUsers=()=> {
             correo: "",
             costraseña:"",
         });
-        const[message,seMessage]=useState();
+        const[message,setMessage]=useState();
         const [loading,setLoading]=useState(false);
        
         const {correo,contraseña}=inputs; 
         const onChange=(e)=>{
             setInputs({...inputs,[e.target.name]:e.target.value})
         }
-        const onSubmit=(e)=>{
+        const onSubmit=async(e)=>{
             e.preventDefault();
             if(correo !==""&& contraseña!==""){
                 const usuario={
@@ -29,7 +29,26 @@ const CreateUsers=()=> {
                     contraseña,
                 };
                 setLoading(true);
-                
+                await axios
+                .post("http://localhost:4000/registro",usuario)
+                .then(({data})=>{console.log(data)
+                 setMessage(data.message)
+                 setInputs({correo:"", contraseña:""});
+                 setTimeout(()=>{setMessage("");
+                    setMessage("");
+                    navigate("/compresion");
+
+                },1500)
+
+                })
+                .catch((error)=>{
+                    console.error(error);
+                    setMessage("lo siento hay un error");
+                    setTimeout(()=>{
+                        setMessage("");
+                    },1500)
+                });
+                setLoading(false);
             }
         };
         const navigate=useNavigate()
@@ -68,10 +87,10 @@ const CreateUsers=()=> {
                                         </div>
     
                                     </div>
-                                    <br />
+                                    <br/>
                                     <div>
                                         <div class="d-grid">
-                                            <button  onClick={()=> navigate("/compresion")} class="btn btn botonRegistre">inicio de sesion</button>
+                                            <button type="submit" class="btn btn botonRegistre"> {loading ? "cargando..." : "Registrarse"}</button>
                                         </div>
                                        
                                     </div>

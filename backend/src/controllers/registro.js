@@ -1,8 +1,8 @@
 const bcry=require("bcrypt");
 const Usuario=require("../models/usuario");
-const registro=async (req,resp)=>{
+const registro=async (req,res)=>{
     const {correo, contraseña}=req.body
-    usuario.findOne({correo}).then(usuario=>{
+    Usuario.findOne({correo}).then(usuario=>{
         if(usuario){
             return res.json({menssage:"ya existe ese correo"});
 
@@ -10,7 +10,7 @@ const registro=async (req,resp)=>{
             return res.json({message:"Faltan elementos por completar"});
         }
         else{
-            bcry.hash(contraseña,10,(error,contraseña)=>{
+            bcry.hash(contraseña,10,(error,contraseñaHasheada)=>{
                 if(error) res.json({err});
                 else{
                     const newUsuario=new Usuario({
@@ -20,8 +20,10 @@ const registro=async (req,resp)=>{
                     newUsuario.save().then(usuario=>{
                         res.json({
                             message:"se creo correctamente"
-                        })
+                        });
+                    
                     })
+                    .catch(error=> console.error(error))
                 }
             })
         }

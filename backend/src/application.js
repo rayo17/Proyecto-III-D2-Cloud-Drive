@@ -10,8 +10,8 @@ app.set("port",process.env.PORT||4000);//estableciendo el puerto
 app.use(cors());
 app.use(express.json());
 app.get("/user/:id", controllers. getUserById);
-app.get("/registro", controllers.registro)
-app.get("/login",controllers.login);
+app.post("/registro", controllers.registro)
+app.post("/login",controllers.login);
 //routes rutas del servidor
 //app.use("/appi/users",require("./routes/users"));
 
