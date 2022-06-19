@@ -144,3 +144,53 @@ void huffmanCode::storeTree(Node *Root) {
     }
     outputFile.close();
 }
+
+
+/**
+ *
+ */
+void huffmanCode::Insert_MinHeap(vector<Node *> &A, Node *element) {
+    A.push_back(element);
+    int i=A.size()-1;
+    while(i>0&& A[(i-1)/2]->Frequency > A[i]->Frequency){
+        swap(A[i],A[(i-1)/2]);
+        i=(i-1)/2;
+    }
+}
+/**
+ *
+ */
+Node *huffmanCode::Extract_min(vector<Node *> &A) {
+    if(A.size()<1)
+        return NULL;
+    Node* minimum=A[0];
+    A[0]=A.back();
+    A.pop_back();
+    Mindownheap(A,0,A.size()-1);
+    return minimum;
+}
+/**
+ *
+ */
+void huffmanCode::Mindownheap(vector<Node *> &A, int i, int length) {
+    int least=i;
+    if(2*i+1<=length&& A[2*i+1]->Frequency < A[i]->Frequency){
+        least=2*i+1;
+        if(2*i+2<=length&& A[2*i+2]->Frequency < A[2 * i + 1]->Frequency)
+            least=2*i+2;
+    }
+    else if(2*i+2<=length&& A[2*i+2]->Frequency < A[i]->Frequency)
+        least=2*i+2;
+    if(least!=i){
+        swap(A[i],A[least]);
+        Mindownheap(A,least,length);
+    }
+}
+/**
+ *
+ */
+void huffmanCode::Build_Minheap(vector<Node*> &A, int length) {
+    for(int i=(length-1)/2;i>=0;i--){
+        Mindownheap(A,i,length);
+    }
+}
