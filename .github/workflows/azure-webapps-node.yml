@@ -57,8 +57,6 @@ jobs:
         # Filename for archive
         filename: backend.zip
         path: ./build/*
-        # Working directory before zipping
-        directory: .
     
     - name: npm install and build in the frontend
       run: |
@@ -72,14 +70,13 @@ jobs:
         # Filename for archive
         filename: frontend.zip
         path: ./build/*
-        # Working directory before zipping
-        directory: .
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: ./build/backend.zip
-              ./build/frontend.zip
+        path: backend.zip
+              frontend.zip
 
   deploy:
     permissions:
