@@ -55,7 +55,7 @@ jobs:
       uses: TheDoctor0/zip-release@0.6.2
       with:
         # Filename for archive
-        filename: backend.zip
+        filename: zip -r backend.zip . -i ./build/*
         path: ./build/*
     
     - name: npm install and build in the frontend
