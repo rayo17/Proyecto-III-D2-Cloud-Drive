@@ -1,111 +1,124 @@
-#include <iostream>
-#include <fstream>
+/**
+ * LZW.cpp
+ * @authors Justin Fernández, Valerin Calderón, Daniel Rayo, Felipe Viales
+ * @version 1
+ */
 
-using namespace std;
+#include "lzw.h"
 
-int main()
-{
-// leer archivos 
-    string s1, s2;
-    int a, b, c, d;
-    ifstream archivo;
-    archivo.open("h");
-    if (!archivo.is_open()){
-        cout <<"ERROR DEL ARCHIVO"<< endl;
-        return 1;
+/**
+ *
+ * @return
+ */
+string LZW::compressFile(string filePath) {
+    string myText=readFileLZW(filePath);
+    vector<int> myCodes= LZWencoding(myText);
+    return transformCodesToString(myCodes);
+}
+
+/**
+ *
+ * @param vectorOfCodes
+ */
+string LZW::uncompressFile(string vectorOfCodes) {
+    vector<int> mySecondCodes = transformStringToCodes(vectorOfCodes);
+    return LZWdecode(mySecondCodes);
+}
+
+
+string LZW::readFileLZW(string filePath) {
+    ifstream file;
+    file.open(filePath,std::ios::in |std::ios::binary);
+    string texto="";
+    char ch;
+    while(file.get(ch)){
+        texto+=ch;
     }
-    archivo >> s1 >> s2 >> a >>b>>c>>d;
-    archivo.close();
-    cout << s1 << endl; 
-    cout << s2 << endl; 
-    cout << a << endl; 
-    cout << b << endl; 
-    cout << c << endl;
-    cout << d << endl;  
-    return 0;
-
-
+    file.close();
+    return texto;
 }
 
-#include <bits/stdc++.h>
-using namespace std;
-vector<int> encoding(string s1)
-{
-	cout << "Encoding\n";
-	unordered_map<string, int> table;
-	for (int i = 0; i <= 255; i++) {
-		string ch = "";
-		ch += char(i);
-		table[ch] = i;
-	}
+vector<int> LZW::LZWencoding(string s1) {
+    unordered_map<string, int> table;
+    for(int i = 0; i <= 255; i++) {
+        string ch = "";
+        ch += char(i);
+        table[ch] = i;
+    }
 
-	string p = "", c = "";
-	p += s1[0];
-	int code = 256;
-	vector<int> output_code;
-	cout << "String\tOutput_Code\tAddition\n";
-	for (int i = 0; i < s1.length(); i++) {
-		if (i != s1.length() - 1)
-			c += s1[i + 1];
-		if (table.find(p + c) != table.end()) {
-			p = p + c;
-		}
-		else {
-			cout << p << "\t" << table[p] << "\t\t"
-				<< p + c << "\t" << code << endl;
-			output_code.push_back(table[p]);
-			table[p + c] = code;
-			code++;
-			p = c;
-		}
-		c = "";
-	}
-	cout << p << "\t" << table[p] << endl;
-	output_code.push_back(table[p]);
-	return output_code;
+    string p = "", c = "";
+    p += s1[0];
+    int code = 256;
+    vector<int> output_code;
+    for (int i = 0; i < s1.length(); i++) {
+        if (i != s1.length() - 1)
+            c += s1[i + 1];
+        if (table.find(p + c) != table.end()) {
+            p = p + c;
+        }
+        else {
+            output_code.push_back(table[p]);
+            table[p + c] = code;
+            code++;
+            p = c;
+        }
+        c = "";
+    }
+    output_code.push_back(table[p]);
+    return output_code;
 }
 
-void decoding(vector<int> op)
-{
-	cout << "\nDecoding\n";
-	unordered_map<int, string> table;
-	for (int i = 0; i <= 255; i++) {
-		string ch = "";
-		ch += char(i);
-		table[i] = ch;
-	}
-	int old = op[0], n;
-	string s = table[old];
-	string c = "";
-	c += s[0];
-	cout << s;
-	int count = 256;
-	for (int i = 0; i < op.size() - 1; i++) {
-		n = op[i + 1];
-		if (table.find(n) == table.end()) {
-			s = table[old];
-			s = s + c;
-		}
-		else {
-			s = table[n];
-		}
-		cout << s;
-		c = "";
-		c += s[0];
-		table[count] = table[old] + c;
-		count++;
-		old = n;
-	}
+string LZW::transformCodesToString(vector<int> codes) {
+    string vectorOfCodes="";
+    for(int i=0;i<codes.size();i++){
+        vectorOfCodes+=to_string(codes[i])+" ";
+    }
+    return vectorOfCodes;
 }
-int main()
-{
 
-	string s = "WYS*WYGWYS*WYSWYSG";
-	vector<int> output_code = encoding(s);
-	cout << "Output Codes are: ";
-	for (int i = 0; i < output_code.size(); i++) {
-		cout << output_code[i] << " ";
-	}
-	cout << endl;
-	decoding(output_code);
+vector<int> LZW::transformStringToCodes(string vectorOfCodes) {
+    vector<int> codes;
+    string tempNumber="";
+    for(int i=0;i<vectorOfCodes.size();i++){
+        if(vectorOfCodes.at(i) != ' '){
+            tempNumber+= vectorOfCodes[i];
+        }else{
+            codes.push_back(stoi(tempNumber));
+            tempNumber="";
+        }
+    }
+    return codes;
+}
+
+string LZW::LZWdecode(vector<int> theCodes) {
+    string textToReturn;
+    unordered_map<int, string> table;
+    for (int i = 0; i <= 255; i++) {
+        string ch = "";
+        ch += char(i);
+        table[i] = ch;
+    }
+    int old = theCodes[0], n;
+    string s = table[old];
+    string c = "";
+    c += s[0];
+    textToReturn+= s;
+    int count = 256;
+    for (int i = 0; i < theCodes.size() - 1; i++) {
+        n = theCodes[i + 1];
+        if (table.find(n) == table.end()) {
+            s = table[old];
+            s = s + c;
+        }
+        else {
+            s = table[n];
+        }
+        textToReturn+=s;
+        c = "";
+        c += s[0];
+        table[count] = table[old] + c;
+        count++;
+        old = n;
+    }
+    return textToReturn;
 }
