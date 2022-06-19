@@ -194,3 +194,40 @@ void huffmanCode::Build_Minheap(vector<Node*> &A, int length) {
         Mindownheap(A,i,length);
     }
 }
+
+
+/**
+ *
+ */
+void huffmanCode::Write_compressed() {
+    inputFile.open(fileName,ios::binary);
+    outputFile.open((fileName + ".huf").c_str(), ios::binary);
+    inputFile.seekg(0);
+    if(inputFile.is_open() and outputFile.is_open()){
+        char ch;
+        unsigned char bits_8;
+        int counter=0;
+        while(inputFile.get(ch)){
+            int temp=Huffman_codemap[ch];
+            while(temp!=1){
+                bits_8<<=1;
+                if((temp%10)!=0){
+                    bits_8|=1;
+                }
+                temp/=10;
+                counter++;
+                if(counter==8){
+                    outputFile<<bits_8;
+                    counter=bits_8=0;
+                }
+            }
+        }
+        while(counter!=8){
+            bits_8<<=1;
+            counter++;
+        }
+        outputFile<<bits_8;
+        inputFile.close();
+        outputFile.close();
+    }
+}
