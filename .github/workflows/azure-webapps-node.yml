@@ -51,17 +51,35 @@ jobs:
         npm install
         npm run build --if-present
         
+    - name: Zip Release Backend
+      uses: TheDoctor0/zip-release@0.6.2
+      with:
+        # Filename for archive
+        filename: backend.zip
+        path: ./build/*
+        # Working directory before zipping
+        directory: .
+    
     - name: npm install and build in the frontend
       run: |
         cd ./fronted
         npm install
         npm run build --if-present
 
+    - name: Zip Release frontend
+      uses: TheDoctor0/zip-release@0.6.2
+      with:
+        # Filename for archive
+        filename: frontend.zip
+        path: ./build/*
+        # Working directory before zipping
+        directory: .
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: .
+        path: ./build/backend.zip
+              ./build/frontend.zip
 
   deploy:
     permissions:
