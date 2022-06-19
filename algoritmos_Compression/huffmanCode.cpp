@@ -103,3 +103,44 @@ void huffmanCode::setFrequencies() {
     inputFile.seekg(0); //Reset File pointers
     inputFile.close(); //Close File
 }
+
+
+/**
+ *
+ */
+void huffmanCode::storeCodes(Node* Root,int index) {
+    if(Root->leftChild==NULL){
+        single_code[index]='0';
+        storeCodes(Root->leftChild, index + 1);
+    }
+    if(Root->rightChild==NULL){
+        single_code[index]='1';
+        storeCodes(Root->rightChild, index + 1);
+    }
+    if(Root->leftChild!=NULL && Root->leftChild!=NULL){
+        for(int i=index;i>=0;i--){
+            if(i!=index){
+                Huffman_codemap[Root->character]*=10;
+                Huffman_codemap[Root->character]+=single_code[i]-'0';
+            }
+            else Huffman_codemap[Root->character]=1;
+        }
+    }
+}
+
+/**
+ *
+ */
+void huffmanCode::storeTree(Node *Root) {
+    outputFile.open(fileName+".huf",ios::binary);
+    if(Root->leftChild!=NULL && Root->rightChild!=NULL){
+        outputFile<<'1';
+        outputFile<<Root->character;
+    }
+    else{
+        outputFile<<'0';
+        storeTree(Root->leftChild);
+        storeTree(Root->rightChild);
+    }
+    outputFile.close();
+}
