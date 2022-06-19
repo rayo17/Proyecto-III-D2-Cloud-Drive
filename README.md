@@ -11,4 +11,4 @@ Este proyecto consiste en la creación de una aplicación web que permite la com
 El sistema es multiusuarios y está construido con NodeJs, React y C++ principalmente.
 
 ## Github Actions Bagdes
-[![.github/workflows/azure-webapps-node.yml](https://github.com/rayo17/Proyecto-III-D2-Cloud-Drive/actions/workflows/azure-webapps-node.yml/badge.svg)](https://github.com/rayo17/Proyecto-III-D2-Cloud-Drive/actions/workflows/azure-webapps-node.yml)
+[![Build and deploy Node.js app to Azure Web App - Cloud-Driver](https://github.com/rayo17/Proyecto-III-D2-Cloud-Drive/actions/workflows/master_cloud-driver.yml/badge.svg)](https://github.com/rayo17/Proyecto-III-D2-Cloud-Drive/actions/workflows/master_cloud-driver.yml)
