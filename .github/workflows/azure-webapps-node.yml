@@ -44,8 +44,8 @@ jobs:
         cache: 'npm'
 
     - name: npm install, build, and test
+      working-directory:./backend
       run: |
-        working-directory:./backend
         npm install
         npm run build --if-present
 
