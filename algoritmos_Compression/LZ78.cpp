@@ -31,9 +31,9 @@ char decode_char(string out)
 
 struct Dict
 {
-  string label; // dictionary entry string
-  char output;  // first non-matching symbol
-  int entry;    // longest matching dictionary entry
+  string label; // entrada de diccionario string
+  char output;  // primer simbolo que no se repite
+  int entry;    // entry entrada de diccionario mas larga
 
   Dict(string label, int entry, char output) // constructor
   {
@@ -44,7 +44,7 @@ struct Dict
 };
 
 int find(string l, list<Dict> enc_list)
-{ // change list to map
+{ // cambia de lista a mapa 
 
   list<Dict> temp = enc_list;
   int i = 1;
@@ -61,6 +61,7 @@ int find(string l, list<Dict> enc_list)
   return -1;
 }
 
+// Funcion de escritura en binario para el archivo
 void write_file(string input, string output_filename)
 {
   string one_byte;
@@ -71,6 +72,7 @@ void write_file(string input, string output_filename)
   FILE *fp;
   fp = fopen(output_filename.c_str(), "wb");
 
+  // revisa si hay archivos txt. con el nombre electo
   if(fp == NULL)
   {
     printf("Unable to open output file!\n");
@@ -89,6 +91,7 @@ void write_file(string input, string output_filename)
   fclose(fp);
 }
 
+//Funcion de algoritmo de compresion
 void LZ78_Compress(string txt, string output_filename)
 {
   list <Dict> Dictionary;
@@ -103,27 +106,27 @@ void LZ78_Compress(string txt, string output_filename)
 
      Char = string(1, txt[i]);
 
-     IndexForPrefix = find((Prefix + Char), Dictionary);  // if it equals to -1, it means (Prefix + Char) is not in the dictionary
+     IndexForPrefix = find((Prefix + Char), Dictionary);  // si es igual a -1 la trie no esta en el diccionario actual
      if(IndexForPrefix != -1)
      {    
-         Prefix = Prefix + Char; // if  Prefix + Char already exists, append Char
+         Prefix = Prefix + Char; // si la trie existe hace un append Char
      }
 
      else
      {
         if(Prefix.empty())
         {
-          CodeWord = 0;           // if Prefix is empty, a new letter was processed
+          CodeWord = 0;           // si el prefijo esta vacio se proceso una letra nueva 
           compressed += "00000000";
         }
         else
         {
-          CodeWord = find(Prefix, Dictionary);     // search Prefix index
-          compressed += encode_int(CodeWord);       // encode index
+          CodeWord = find(Prefix, Dictionary);     // busca el prefijo en el indice
+          compressed += encode_int(CodeWord);       // encode indice
         }
 
         compressed += encode_char(Char);                                // encode char
-        Dictionary.push_back(Dict((Prefix + Char), CodeWord, txt[i])); // add new entry to the dictionary
+        Dictionary.push_back(Dict((Prefix + Char), CodeWord, txt[i])); // nueva entrada al diccionario
         Prefix.clear();      
      }
   } 
@@ -131,74 +134,8 @@ void LZ78_Compress(string txt, string output_filename)
   write_file(compressed, output_filename);
 }
 
-void LZ78_Decompress(string input_filename, string output_filename)
-{
-  // Decompression Variables
-  string dict = "";
-  string decompressed_text;      // the the decomressed string
-  string compressed_text;        // the compressed input
-  string character;              // the character immediately after the current codeword
-  string temp;                   
 
-  unsigned char ch;
-  unsigned int codeword, l = 0, i, len;           // the current dictionary entry being processed
-
-  FILE *fp;
-  fp = fopen(input_filename.c_str(), "rb");
-
-  if(fp == NULL)
-  {
-    printf("Unable to open compressed file!\n");
-    return;
-  }
-
-
-  while(fscanf(fp, "%c", &ch) == 1)
-  {
-    compressed_text += ch;
-  }
-  len = compressed_text.length();
-
-  fclose(fp);
-
-  ofstream outfile(output_filename.c_str(), ios::binary);
-
-  int *idx = new int[len]; // used for storing the index of the i-th dictionary entry
-
-  for (i=0;i<len;i+=2)
-  {
-    codeword = compressed_text[i];                      // longest matching dictionary entry
-    character = compressed_text.substr(i + 1, 1);       // first non-matching symbol
-    dict += character;                           
-    idx[l] = codeword;
-    l++; // idx size
-
-    // let's say l = 0
-    // then (idx[0], dict[0]) represents the first dictionary entry
-
-    if(codeword == 0)
-    {
-        decompressed_text += character; // new letter, just append
-    }
-
-    else
-    {      
-       while(codeword > 0)  // go back in the dictionary string, adding each letter until you get one with codeword = 0
-       {
-        temp += dict[codeword-1];
-        codeword = idx[codeword-1];
-       }
-       reverse(temp.begin(), temp.end()); // restore correct order
-       decompressed_text += temp;         // append string and char
-       decompressed_text += character;
-       temp.clear();
-    }
-  }
-  outfile << decompressed_text;
-  outfile.close();
-}
-
-
+// funcion para ejecutar la compression
 void Compress(string input_filename, string output_filename)
 {
   ifstream in(input_filename.c_str());
