@@ -4,6 +4,9 @@
  * @version 1
  */
 
+
+
+// Adapatación al código de Alisson Calvo
 #ifndef COMPRESSIONALGORITHMS_HUFFMANCODE_H
 #define COMPRESSIONALGORITHMS_HUFFMANCODE_H
 
@@ -31,6 +34,7 @@ struct Node{
         rightChild=right_child;
     }
 };
+
 /**
  * @brief Huffman Class for compressing and uncompressing files
  * 

@@ -4,8 +4,13 @@
  * @version 1
  */
 
+
+// Adapatación al código de Alisson Calvo
+
 #include "huffmanCode.h"
 
+
+// The static root definition as nullptrt
 Node* huffmanCode::HuffmanRoot= nullptr;
 
 /**
@@ -64,6 +69,7 @@ Node* huffmanCode::makeHuffmanTree(int encodeOrDecode) {
 /**
  * This method constructs the huffman Tree given a table of codes.\n
  * It's used when the uncompressed process is required.
+ * Not yet implemented.
  */
 Node* huffmanCode::makeHuffmanTreeByCodes() {}
 
@@ -106,7 +112,7 @@ void huffmanCode::setFrequencies() {
 
 
 /**
- *
+ * This method stores the codes to compress a file
  */
 void huffmanCode::storeCodes(Node* Root,int index) {
     if(Root->leftChild==NULL){
@@ -129,7 +135,7 @@ void huffmanCode::storeCodes(Node* Root,int index) {
 }
 
 /**
- *
+ * This method stores the tree according to the characters in the file
  */
 void huffmanCode::storeTree(Node *Root) {
     outputFile.open(fileName+".huf",ios::binary);
@@ -147,7 +153,7 @@ void huffmanCode::storeTree(Node *Root) {
 
 
 /**
- *
+ * Inserts a element in the minimun binary heap
  */
 void huffmanCode::Insert_MinHeap(vector<Node *> &A, Node *element) {
     A.push_back(element);
@@ -158,7 +164,7 @@ void huffmanCode::Insert_MinHeap(vector<Node *> &A, Node *element) {
     }
 }
 /**
- *
+ * Extracts the minimun element in the current heap
  */
 Node *huffmanCode::Extract_min(vector<Node *> &A) {
     if(A.size()<1)
@@ -169,8 +175,9 @@ Node *huffmanCode::Extract_min(vector<Node *> &A) {
     Mindownheap(A,0,A.size()-1);
     return minimum;
 }
+
 /**
- *
+ * Makes a process to reorder the heap when an element is inserted or extracted
  */
 void huffmanCode::Mindownheap(vector<Node *> &A, int i, int length) {
     int least=i;
@@ -186,8 +193,9 @@ void huffmanCode::Mindownheap(vector<Node *> &A, int i, int length) {
         Mindownheap(A,least,length);
     }
 }
+
 /**
- *
+ * Constructs the the minimun binary heap
  */
 void huffmanCode::Build_Minheap(vector<Node*> &A, int length) {
     for(int i=(length-1)/2;i>=0;i--){
@@ -197,11 +205,11 @@ void huffmanCode::Build_Minheap(vector<Node*> &A, int length) {
 
 
 /**
- *
+ * Write the compressed file in a binary format with an extension .huff
  */
 void huffmanCode::Write_compressed() {
     inputFile.open(fileName,ios::binary);
-    outputFile.open((fileName + ".huf").c_str(), ios::binary);
+    outputFile.open((fileName + ".huff").c_str(), ios::binary);
     inputFile.seekg(0);
     if(inputFile.is_open() and outputFile.is_open()){
         char ch;
