@@ -134,6 +134,70 @@ void LZ78_Compress(string txt, string output_filename)
   write_file(compressed, output_filename);
 }
 
+void LZ78_Decompress(string input_filename, string output_filename)
+{
+ 
+  string dict = "";
+  string decompressed_text;      // string descomprmida
+  string compressed_text;        // input comprmido
+  string character;              // simbolo que le sigue al codeword
+  string temp;                   
+
+  unsigned char ch;
+  unsigned int codeword, l = 0, i, len;           
+
+  FILE *fp;
+  fp = fopen(input_filename.c_str(), "rb");
+
+  if(fp == NULL)
+  {
+    printf("Unable to open compressed file!\n");
+    return;
+  }
+
+
+  while(fscanf(fp, "%c", &ch) == 1)
+  {
+    compressed_text += ch;
+  }
+  len = compressed_text.length();
+
+  fclose(fp);
+
+  ofstream outfile(output_filename.c_str(), ios::binary);
+
+  int *idx = new int[len]; // guarda el indice de la entrada i-esima en el diccionario
+
+  for (i=0;i<len;i+=2)
+  {
+    codeword = compressed_text[i];                      // entrada mas larga que clasa en el diccionario
+    character = compressed_text.substr(i + 1, 1);       // primer simbolo que no calza
+    dict += character;                           
+    idx[l] = codeword;
+    l++; // idx size
+
+
+    if(codeword == 0)
+    {
+        decompressed_text += character; 
+    }
+
+    else
+    {      
+       while(codeword > 0)  //  recorre el diccionario hasta que el ultimo indice sea 0
+       {
+        temp += dict[codeword-1];
+        codeword = idx[codeword-1];
+       }
+       reverse(temp.begin(), temp.end()); 
+       decompressed_text += temp;        
+       decompressed_text += character;
+       temp.clear();
+    }
+  }
+  outfile << decompressed_text;
+  outfile.close();
+}
 
 // funcion para ejecutar la compression
 void Compress(string input_filename, string output_filename)
