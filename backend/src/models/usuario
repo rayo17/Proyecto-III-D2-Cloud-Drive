@@ -1,18 +1,19 @@
 const { json } = require("express");
-const {model,Schema}=require("mongoose");
-
-const schemaUser=new Schema({
-    correo: {type: String, required:true,unique:true},
-    contraseña:{type:String, required:true},
-    document:{
-        document1:{
-            tags:{type:String},
-            extesionFIle:{type:String,required:true},
-            filecompress:{type:String,required:true},
-            enconder:{type:String,required:true},
+const { model, Schema } = require("mongoose");
+//modelo del esquema de la base de datos
+const schemaUser = new Schema({
+    correo: { type: String, required: true, unique: true },//coreo
+    contraseña: { type: String, required: true },//contraseña
+    document: {//docuement
+        document1: {
+            tags: { type: String },//tags
+            extesionFIle: { type: String,},//extesion de los archivos
+            filecompress: { type: String},// compression del archivo
+            enconder: { type: String },// 
         }
     }
 
+    
 })
 
-module.exports=model("Usuario", schemaUser);
+module.exports = model("Usuario", schemaUser);//se exporta el esquema

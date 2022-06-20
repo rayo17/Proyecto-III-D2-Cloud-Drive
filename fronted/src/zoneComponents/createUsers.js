@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from 'react-router-dom';
 import "./estilo.css"
 const CreateUsers = () => {
+ 
 
     /* async componentDidMount() {
          const res = await axios.get("http://localhost:4000/appi/users")//realizando peticion
@@ -14,39 +15,41 @@ const CreateUsers = () => {
         correo: "",
         costraseña: "",
     });
-    const [message, setMessage] = useState();
-    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState();//se generan dos estados para los mensajes recibidos del backend 
+    const [loading, setLoading] = useState(false);//
 
-    const { correo, contraseña } = inputs;
-    const onChange = (e) => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value })
+    const { correo, contraseña } = inputs;// se capturan del inputs los datos
+    const onChange = (e) => {// funcion para  actualizar los inputs
+        
+        setInputs({ ...inputs, [e.target.name]: e.target.value })//se actualizan los valores
+        
     }
-    const onSubmit = async (e) => {
+    const onSubmit = async (e) => {//funcion que envia la peticion para validar usuario y contraseña al backend
         e.preventDefault();
-        if (correo !== "" && contraseña !== "") {
+        if (correo !== "" && contraseña !== "") {// se verifica si el usario y la contraseña
             console.log(contraseña);
             console.log(correo)
-            const Usuario = {
-                correo,
-                contraseña,
+            const Usuario = {// se genera un objeto usuario para ser validado
+                correo, //contiene el correo
+                contraseña,//contraseña
             };
             setLoading(true);
             await axios
-                .post("http://localhost:4000/registro", Usuario)
-                .then(({ data }) => {
+                .post("http://localhost:4000/registro", Usuario)// se realiza la peticion y se le envia el usaurio para ser validado
+                .then(({ data }) => {// promesas
                     console.log(data)
-                    setMessage(data.message)
-                    setInputs({ correo: "", contraseña: "" });
-                    setTimeout(() => {
+                    setMessage(data.message)//se recibe el mensaje para ser mostrado
+                    setInputs({ correo: "", contraseña: "" });// se actualizan los inputs en vacio
+                    setTimeout(() => { // se estable un tiempo de retardo
                         setMessage("");
                         navigate("/");
                         setLoading(false);                        
                     }, 1500)
 
                 })
-                .catch((error) => {
+                .catch((error) => {// se captura el error
                     console.error(error);
-                    setMessage("lo siento hay un error");
+                    setMessage("lo siento hay un error");// mensaje error
                     setTimeout(() => {
                         setMessage("");
                         setLoading(false);
@@ -60,7 +63,7 @@ const CreateUsers = () => {
 
     return (
         <>
-            <div className='text-center fondo1'>
+            <div className='text-center fondo1'> 
 
                 <div className='container fondo2'>
                     <div className=''>

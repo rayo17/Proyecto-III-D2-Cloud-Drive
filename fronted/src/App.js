@@ -11,13 +11,14 @@ import Compression from "./zoneComponents/Compression";
 import PrivateRoute from "./zoneComponents/PrivateRoute";
 import AutProvider from "./aut/AutProvider";
 import Cuenta from "./zoneComponents/Cuenta";
+// se establen las etiquetas para ser mostradas en el fronted  con sus respectivas rutas 
 function App() {
   return (
-    
+ 
         <R>
           <Navigation />
        
-            <Routes>
+            <Routes>//
               <Route path="/" element={<Inicio />} />
               <Route path="/createUsers" element={<CreateUsers />} />
               <Route

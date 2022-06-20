@@ -10,46 +10,47 @@ import { useState } from 'react'
 
 
 const Inicio=()=>{
-    const [inputs, setInputs] = useState({ //VALIDANDO LOS DATOS DEL REGISTRO
-        correo: "",
-        costraseña: "",
+    const [inputs, setInputs] = useState({ //Estados de entrada
+        correo: "",//correo
+        costraseña: "",// contraseña
     });
-    const [message, setMessage] = useState();
+    const [message, setMessage] = useState();// estados de los mensajes
     const [loading, setLoading] = useState(false);
 
-    const { correo, contraseña } = inputs;
-    const onChange = (e) => {
+    const { correo, contraseña } = inputs; // se capturan el valor de los estados inputs
+    const onChange = (e) => { //funcion que cambia el estado de los inputs
         setInputs({ ...inputs, [e.target.name]: e.target.value })
     }
-    const onSubmit = async (e) => {
+    const onSubmit = async (e) => {// funcion que envia los datos a para ser validados por el backend
         e.preventDefault();
-        if (correo !== "" && contraseña !== "") {
+        if (correo !== "" && contraseña !== "") {// se verifican los datos antes de enviar
             console.log(contraseña);
             console.log(correo)
-            const Usuario = {
+            const Usuario = { //se crea un objeto usuario con sus componenets para ser validado
                 correo,
                 contraseña,
             };
             setLoading(true);
             await axios
-                .post("http://localhost:4000/login", Usuario)
+                .post("http://localhost:4000/login", Usuario)//se realiza la peticion post
                 .then(({ data }) => {
                     console.log(data)
-                    setMessage(data.message)
-                    setInputs({ correo: "", contraseña: "" });
+                    setMessage(data.message)// se capta el mensaje del backend
+                    setInputs({ correo: "", contraseña: "" });// los espacios del corro y contraseña se restablecen
                     setTimeout(() => {
                         setMessage("");
                         setLoading(false);  
                         console.log(Usuario.id)
-                        navigate(`/compresion/${data?.usuario.id} `);
+                        navigate(`/compresion/${data?.usuario.id} `);// a la hora de enviar el form este envia el usuario al area de compersion de archivos
                                              
                     }, 1500)
 
-                })
+                })//captura el error
                 .catch((error) => {
                     console.error(error);
                     setMessage("lo siento hay un error");
                     setTimeout(() => {
+                        
                         setMessage("");
                         setLoading(false);
                     }, 1500);
